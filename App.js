@@ -1,5 +1,6 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import Toast from "react-native-toast-message"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 import {
   StyleSheet,
   Text,
@@ -30,11 +31,30 @@ export default function App() {
       ]
     )
 
+  const storeData = async (value) => {
+    try {
+      const jsonValue = JSON.stringify(value)
+      await AsyncStorage.setItem("StoredTasks", jsonValue)
+    } catch (e) {
+      // saving error
+    }
+  }
+
+  const getData = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem("StoredTasks")
+      return jsonValue != null ? JSON.parse(jsonValue) : null
+    } catch (e) {
+      // error reading value
+    }
+  }
+
   const handleAddTask = () => {
     Keyboard.dismiss()
     if (task) {
       setTaskItems([...taskItems, task])
       setTask(null)
+      storeData([...taskItems, task])
     } else {
       Toast.show({
         text1: "Error adding task!",
@@ -48,10 +68,19 @@ export default function App() {
     }
   }
 
+  useEffect(() => {
+    async function getStoredData() {
+      const gotData = await getData()
+      setTaskItems(gotData)
+    }
+    getStoredData()
+  }, [])
+
   const completeTask = (index) => {
     let itemsCopy = [...taskItems]
     itemsCopy.splice(index, 1)
     setTaskItems(itemsCopy)
+    storeData([...itemsCopy])
     Toast.show({
       text1: "Task completed!",
       type: "success",
