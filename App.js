@@ -37,7 +37,7 @@ export default function App() {
       const jsonValue = JSON.stringify(value)
       await AsyncStorage.setItem("StoredTasks", jsonValue)
     } catch (e) {
-      // saving error
+      console.log(e);
     }
   }
 
@@ -46,7 +46,7 @@ export default function App() {
       const jsonValue = await AsyncStorage.getItem("StoredTasks")
       return jsonValue != null ? JSON.parse(jsonValue) : []
     } catch (e) {
-      // error reading value
+      console.log(e);
     }
   }
 
@@ -88,19 +88,16 @@ export default function App() {
       visibilityTime: 4000,
       autoHide: true,
       position: "bottom",
-      bottomOffset: 150,
+      bottomOffset: 100,
     })
   }
 
   return (
     <View style={tw`flex-1 bg-gray-200`}>
       <Toast ref={(ref) => Toast.setRef(ref)} />
-      {/* Today's Tasks */}
       <View style={tw`pt-20 px-8`}>
-        <Text  style={tw`text-2xl font-bold`}>Today's Tasks</Text>
-
+        <Text style={tw`text-2xl font-bold`}>Today's Tasks</Text>
         <View style={tw`m-8`}>
-          {/* This is where the tasks go */}
           {taskItems.map((task, index) => {
             return (
               <TouchableOpacity key={index} onPress={() => AlertDialog(index)}>
@@ -113,19 +110,15 @@ export default function App() {
 
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
-		style={tw`absolute bottom-6 w-full flex-row justify-around items-center`}
+		style={tw`absolute bottom-6 w-full items-center`}
       >
         <TextInput
-		  style={tw`py-4 w-64 px-4 bg-white rounded-2xl border border-gray-300 border-solid`}
+		  style={tw`py-4 w-4/5 px-4 bg-white rounded-2xl border border-gray-300 border-solid`}
           placeholder={"Write a task"}
           value={task}
           onChangeText={(text) => setTask(text)}
+		  onSubmitEditing={() => handleAddTask()}
         ></TextInput>
-        <TouchableOpacity onPress={() => handleAddTask()}>
-          <View	style={tw`w-16 h-16 bg-white rounded-full justify-center items-center border border-gray-300 border-solid`}>
-            <Text>+</Text>
-          </View>
-        </TouchableOpacity>
       </KeyboardAvoidingView>
     </View>
   )
