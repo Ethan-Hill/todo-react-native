@@ -16,18 +16,13 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-    "ios": {
-      "supportsTablet": true
-    },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "todo.ethanhill.dev"
+      "package": "todo.ethanhill.dev",
+	  "versionCode": 1
     },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    }
   }
 }

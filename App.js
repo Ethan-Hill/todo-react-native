@@ -43,7 +43,7 @@ export default function App() {
   const getData = async () => {
     try {
       const jsonValue = await AsyncStorage.getItem("StoredTasks")
-      return jsonValue != null ? JSON.parse(jsonValue) : null
+      return jsonValue != null ? JSON.parse(jsonValue) : []
     } catch (e) {
       // error reading value
     }
