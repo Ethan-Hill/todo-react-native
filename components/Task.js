@@ -1,50 +1,22 @@
 import React from "react"
 import { View, Text, StyleSheet, Alert } from "react-native"
+import tw from 'tailwind-react-native-classnames';
 
 const Task = ({ text }) => {
   return (
-    <View style={styles.item}>
-      <View style={styles.itemLeft}>
-        <View style={styles.square}></View>
+    <View style={tw`bg-white p-4 rounded-lg flex-row items-center justify-between mb-6`}>
+      <View style={tw`flex-row items-center flex-wrap`}>
+        <View style={tw`w-6 h-6 bg-blue-300 bg-opacity-40 rounded-lg mr-4`}></View>
         <Text style={styles.itemText}>{text}</Text>
       </View>
-      <View style={styles.circular}></View>
+      <View style={tw`w-4 h-4 border-blue-300 border-2 rounded-md`}></View>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  item: {
-    backgroundColor: "#FFF",
-    padding: 15,
-    borderRadius: 10,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: 20,
-  },
-  itemLeft: {
-    flexDirection: "row",
-    alignItems: "center",
-    flexWrap: "wrap",
-  },
-  square: {
-    width: 24,
-    height: 24,
-    backgroundColor: "#55BCF6",
-    opacity: 0.4,
-    borderRadius: 5,
-    marginRight: 15,
-  },
   itemText: {
     maxWidth: "80%",
-  },
-  circular: {
-    width: 12,
-    height: 12,
-    borderColor: "#55BCF6",
-    borderWidth: 2,
-    borderRadius: 5,
   },
 })
 
