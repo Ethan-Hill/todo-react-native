@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react"
 import Toast from "react-native-toast-message"
 import AsyncStorage from "@react-native-async-storage/async-storage"
+import tw from 'tailwind-react-native-classnames';
+
 import {
-  StyleSheet,
   Text,
   View,
   KeyboardAvoidingView,
@@ -63,7 +64,7 @@ export default function App() {
         visibilityTime: 4000,
         autoHide: true,
         position: "bottom",
-        bottomOffset: 150,
+        bottomOffset: 100,
       })
     }
   }
@@ -92,13 +93,13 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={tw`flex-1 bg-gray-200`}>
       <Toast ref={(ref) => Toast.setRef(ref)} />
       {/* Today's Tasks */}
-      <View style={styles.textWrapper}>
-        <Text style={styles.sectionTitle}>Today's Tasks</Text>
+      <View style={tw`pt-20 px-8`}>
+        <Text  style={tw`text-2xl font-bold`}>Today's Tasks</Text>
 
-        <View style={styles.items}>
+        <View style={tw`m-8`}>
           {/* This is where the tasks go */}
           {taskItems.map((task, index) => {
             return (
@@ -112,58 +113,20 @@ export default function App() {
 
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.writeTaskWrapper}
+		style={tw`absolute bottom-6 w-full flex-row justify-around items-center`}
       >
         <TextInput
-          style={styles.input}
+		  style={tw`py-4 w-64 px-4 bg-white rounded-2xl border border-gray-300 border-solid`}
           placeholder={"Write a task"}
           value={task}
           onChangeText={(text) => setTask(text)}
         ></TextInput>
         <TouchableOpacity onPress={() => handleAddTask()}>
-          <View style={styles.addWrapper}>
-            <Text style={styles.addText}> +</Text>
+          <View	style={tw`w-16 h-16 bg-white rounded-full justify-center items-center border border-gray-300 border-solid`}>
+            <Text>+</Text>
           </View>
         </TouchableOpacity>
       </KeyboardAvoidingView>
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#e1e1e1",
-  },
-  textWrapper: { paddingTop: 80, paddingHorizontal: 20 },
-  sectionTitle: { fontSize: 24, fontWeight: "bold" },
-  items: { margin: 30 },
-  writeTaskWrapper: {
-    position: "absolute",
-    bottom: 60,
-    width: "100%",
-    flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center",
-  },
-  input: {
-    paddingVertical: 15,
-    width: 250,
-    paddingHorizontal: 15,
-    backgroundColor: "#fff",
-    borderRadius: 60,
-    borderColor: "#C0C0C0",
-    borderWidth: 1,
-  },
-  addWrapper: {
-    width: 60,
-    height: 60,
-    backgroundColor: "#fff",
-    borderRadius: 60,
-    justifyContent: "center",
-    alignItems: "center",
-    borderColor: "#C0C0C0",
-    borderWidth: 1,
-  },
-  addText: {},
-})
